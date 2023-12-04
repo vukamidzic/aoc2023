@@ -1,36 +1,7 @@
 import strutils
-import std/re
 import tables
-import std/sequtils
-import std/sugar
 
 proc isNum(c: char): bool = c in '0'..'9'
-
-proc getNumWordVal(s: string): int =
-    return (let mp = {
-        "one": 1,
-        "two": 2,
-        "three": 3,
-        "four": 4,
-        "five": 5,
-        "six": 6,
-        "seven": 7,
-        "eight": 8,
-        "nine": 9
-    }.toTable; mp[s])
-
-proc getNumWordStr(s: string): string =
-    return (let mp = {
-        "one": "1",
-        "two": "2",
-        "three": "3",
-        "four": "4",
-        "five": "5",
-        "six": "6",
-        "seven": "7",
-        "eight": "8",
-        "nine": "9"
-    }.toTable; mp[s])
 
 proc part1(filePath: string): int = 
     var sum = 0
