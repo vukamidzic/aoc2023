@@ -32,10 +32,6 @@ proc getNumWordStr(s: string): string =
         "nine": "9"
     }.toTable; mp[s])
 
-proc revStr(s: string): string = 
-    result = s
-    result.reverse()
-
 proc part1(filePath: string): int = 
     var sum = 0
     let file = open(filePath)
