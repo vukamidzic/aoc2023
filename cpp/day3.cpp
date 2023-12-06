@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <set>
 #include <utility>
 #include <algorithm>
 
@@ -69,6 +70,7 @@ int part1(std::string file_path) {
     std::vector<std::string> gears;
 
     std::vector<std::pair<int, std::vector<Coord>>> numbers;
+    std::vector<std::vector<Coord>> stars_neighs;
 
     while (std::getline(input, line)) {
         gears.push_back(line);
@@ -88,8 +90,69 @@ int part1(std::string file_path) {
     return result;
 }
 
-int main(void) {
-    std::cout << part1("input.txt") << std::endl;
+void get_stars(std::string line, int i, std::vector<Coord>& stars) {
+    for (int j = 0; j < line.size(); ++j) {
+        if (line[j] == '*') stars.push_back({i, j});
+    }
+}
 
-    return 0;
+bool contains_coord(std::pair<int, std::vector<Coord>> number, Coord coord) {
+    return std::find(number.second.begin(), number.second.end(), coord) != number.second.end();
+}
+
+std::vector<int> count_num_neighs(Coord star, 
+                    std::vector<std::pair<int, std::vector<Coord>>> numbers,
+                    std::vector<std::string>& gears) {
+    std::set<int> found_nums;
+
+    std::vector<Coord> dirs = {
+        {1,0},
+        {-1,0},
+        {0,1},
+        {0,-1},
+        {1,1},
+        {1,-1},
+        {-1,1},
+        {-1,-1}
+    };
+
+    for (Coord tmp : dirs) {
+        Coord new_coord = {star.first + tmp.first, star.second + tmp.second};
+
+        if (new_coord.first >= 0 && new_coord.first < gears.size() && 
+            new_coord.second >= 0 && new_coord.second < gears.size()) {
+            for (std::pair<int, std::vector<Coord>> number : numbers) {
+                if (contains_coord(number, new_coord)) found_nums.insert(number.first);
+            }
+        }
+    }
+
+    std::vector<int> result(found_nums.begin(), found_nums.end());
+    return result;
+}
+
+int part2(std::string file_path) {
+    std::ifstream input(file_path);
+    std::string line;
+    std::vector<std::string> gears;
+
+    std::vector<std::pair<int, std::vector<Coord>>> numbers;
+    std::vector<Coord> stars;
+
+    while (std::getline(input, line)) {
+        gears.push_back(line);
+    }
+
+    for (int i = 0; i < gears.size(); ++i) {
+        get_numbers(gears[i], i, numbers);
+        get_stars(gears[i], i, stars);
+    }
+
+    int result = 0;
+    for (int i = 0; i < stars.size(); ++i) {
+        std::vector<int> nums = count_num_neighs(stars[i], numbers, gears);
+        if (nums.size() == 2) result += nums[0]*nums[1];
+    }
+
+    return result;
 }
