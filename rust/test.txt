@@ -1,2 +1,5 @@
-Time:      7  15   30
-Distance:  9  40  200
+LLR
+
+AAA = (BBB, BBB)
+BBB = (AAA, ZZZ)
+ZZZ = (ZZZ, ZZZ)
