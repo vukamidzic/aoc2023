@@ -1,5 +1,4 @@
 use std::fs;
-use std::thread;
 use std::collections::HashMap;
 
 fn part1(file_path: &str) -> i32 {
