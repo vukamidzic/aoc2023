@@ -1,4 +1,7 @@
 import strutils
+import sequtils
+import algorithm
+import sugar
 import print
 
 type Position = (int, int)
@@ -32,7 +35,6 @@ proc part1(filePath: string): int =
                 galaxies[i].add('.')
                 galaxies[i].add(tmp)
             toEvade.add(j + 1)
-    echo toEvade
 
     var positions = getPositions(galaxies)
     return shortestDists(positions)
