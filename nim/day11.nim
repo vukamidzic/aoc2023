@@ -38,3 +38,43 @@ proc part1(filePath: string): int =
 
     var positions = getPositions(galaxies)
     return shortestDists(positions)
+
+proc part2(filePath: string): int = 
+    const INC = 999_999
+    var lines = readFile(filePath).splitLines()
+    var 
+        galaxies: seq[string] = @[] 
+        hor_empty: seq[int] = @[]
+        ver_empty: seq[int] = @[]
+        i = 0
+    for line in lines: 
+        galaxies.add(line)
+        if not line.contains('#'): hor_empty.add(i)
+        i += 1
+
+    var 
+        positions = getPositions(galaxies)
+        ys: seq[int] = positions.map(p => p[0])
+        xs: seq[int] = positions.map(p => p[1])
+
+    for j in 0..len(galaxies[0])-1:
+        var vertLine = ""
+        for i in 0..len(galaxies)-1: vertLine.add(galaxies[i][j])
+        if (not vertLine.contains('#')): ver_empty.add(j)
+
+    print ver_empty
+
+    for i in 0..len(xs)-1:
+        let gaps = len(ver_empty.filter(x => xs[i] > x))
+        xs[i] += gaps*INC
+
+    for i in 0..len(ys)-1:
+        let gaps = len(hor_empty.filter(x => ys[i] > x))
+        ys[i] += gaps*INC
+
+    positions = ys.zip(xs)
+    return shortestDists(positions)
+
+echo part2("input.txt")
+
+    

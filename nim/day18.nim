@@ -82,5 +82,3 @@ proc part2(filepath: string): int =
                 positions.add(new_pos)
                 index = index + 1
     result = area(positions)
-
-echo part2("input.txt")
